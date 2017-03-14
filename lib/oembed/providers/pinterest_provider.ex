@@ -17,11 +17,28 @@ defmodule OEmbed.PinterestProvider do
   Get oEmbed result for given URL.
   """
   def get(url) do
+    html = case get_page_type(url) do
+      _ -> get_pin_html(url)
+    end
+
+    IO.inspect get_page_type(url)
+
     oembed = Rich.new(%{
-      html: get_pin_html(url)
+      html: html
     })
 
     {:ok, oembed}
+  end
+
+  defp get_page_type(url) do
+    with {:ok, %HTTPoison.Response{body: html}} <- HTTPoison.get(url, [], [follow_redirect: true, ssl: [{:versions, [:'tlsv1.2']}]]),
+      [_ | _] = tags <- Floki.find(html, "head meta[property='og:type']"),
+       {"link", attributes, _} <- List.first(tags),
+       %{"content" => content} <- Enum.into(attributes, %{}) do
+        {:ok, content}
+    else
+      _ -> {:error, "Error getting page type"}
+    end
   end
 
   defp get_pin_html(url) do
