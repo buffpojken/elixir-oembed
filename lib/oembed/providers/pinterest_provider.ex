@@ -34,7 +34,7 @@ defmodule OEmbed.PinterestProvider do
     with {:ok, %HTTPoison.Response{body: html}} <- HTTPoison.get(url, [], [follow_redirect: true, ssl: [{:versions, [:'tlsv1.2']}]]),
       [_ | _] = tags <- Floki.find(html, "head meta[property='og:type']"),
        {"meta", attributes, _} <- List.first(tags),
-       %{"meta" => content} <- Enum.into(attributes, %{}),
+       %{"content" => content} <- Enum.into(attributes, %{}),
        %{"type" => type} <- Regex.named_captures(~r/^pinterestapp:(<type>.+)/, content) do
         IO.inspect type
         {:ok, type}
