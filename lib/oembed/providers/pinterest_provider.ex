@@ -17,17 +17,15 @@ defmodule OEmbed.PinterestProvider do
   Get oEmbed result for given URL.
   """
   def get(url) do
-    html = case get_page_type(url) do
-      _ -> get_pin_html(url)
+    case get_page_type(url) do
+      {:ok, "pin"} ->
+        oembed = Rich.new(%{
+          html: get_pin_html(url)
+        })
+        {:ok, oembed}
+      _ ->
+        {:error, "Error getting oEmbed"}
     end
-
-    IO.inspect get_page_type(url)
-
-    oembed = Rich.new(%{
-      html: html
-    })
-
-    {:ok, oembed}
   end
 
   defp get_page_type(url) do
@@ -35,8 +33,7 @@ defmodule OEmbed.PinterestProvider do
       [_ | _] = tags <- Floki.find(html, "head meta[property='og:type']"),
        {"meta", attributes, _} <- List.first(tags),
        %{"content" => content} <- Enum.into(attributes, %{}),
-       %{"type" => type} <- Regex.named_captures(~r/^pinterestapp:(<type>.+)/, content) do
-        IO.inspect type
+       %{"type" => type} <- Regex.named_captures(~r/^pinterestapp\:(?<type>.+)/, content) do
         {:ok, type}
     else
       _ -> {:error, "Error getting page type"}
