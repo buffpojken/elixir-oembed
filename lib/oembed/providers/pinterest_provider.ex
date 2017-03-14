@@ -34,7 +34,7 @@ defmodule OEmbed.PinterestProvider do
     with {:ok, %HTTPoison.Response{body: html}} <- HTTPoison.get(url, [], [follow_redirect: true, ssl: [{:versions, [:'tlsv1.2']}]]),
       [_ | _] = tags <- Floki.find(html, "head meta[property='og:type']"),
        {"link", attributes, _} <- List.first(tags),
-       %{"content" => content} <- Enum.into(attributes, %{}) do
+       %{"meta" => content} <- Enum.into(attributes, %{}) do
         {:ok, content}
     else
       _ -> {:error, "Error getting page type"}
