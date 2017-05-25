@@ -31,6 +31,7 @@ defmodule OEmbed do
 
   @core_providers [OEmbed.InstagramProvider,
                    OEmbed.PinterestProvider,
+                   OEmbed.URProvider,
                    OEmbed.DiscoverableProvider]
 
   @doc """
