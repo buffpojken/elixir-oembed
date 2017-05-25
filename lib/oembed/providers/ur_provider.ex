@@ -11,7 +11,7 @@ defmodule OEmbed.URProvider do
   Check if this provider supports given URL.
   """
   def provides?(url) do
-    Regex.match?(~r/^(?:(?:http|https):\/\/)?(?:[A-Za-z0-9-_]+\.)*?(?:(ur|urskola)\.se)/im, url)
+    Regex.match?(~r/(ur|urskola)\.se/im, url)
   end
 
   @doc """
