@@ -4,7 +4,7 @@ defmodule OEmbed.VimeoProvider do
   """
   use OEmbed.Provider
 
-  @oembed_endpoint "https://vimeo.com/api/oembed.format?url="
+  @oembed_endpoint "https://vimeo.com/api/oembed.json?url="
 
 
   @doc """
