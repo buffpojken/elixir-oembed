@@ -11,9 +11,6 @@ defmodule OEmbed.VimeoProvider do
   Check if this provider supports given URL.
   """
   def provides?(url) do
-    IO.puts url
-    IO.puts Regex.match?(~r/vimeo/im, url)
-    IO.puts "IMVOE!"
     Regex.match?(~r/vimeo/im, url)
   end
 
