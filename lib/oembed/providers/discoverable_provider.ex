@@ -21,7 +21,7 @@ defmodule OEmbed.DiscoverableProvider do
         {:ok, oembed}
     else
       _ ->
-        {:error, "oEmbed not found"}
+        {:error, "oEmbed not found", :embed_not_reached}
     end
   end
 
@@ -32,7 +32,7 @@ defmodule OEmbed.DiscoverableProvider do
        %{"href" => href} <- Enum.into(attributes, %{}) do
         {:ok, href}
     else
-      _ -> {:error, "oEmbed url not found"}
+      _ -> {:error, "oEmbed url not found", :embed_not_found}
     end
   end
 end

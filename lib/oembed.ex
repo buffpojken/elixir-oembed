@@ -48,7 +48,7 @@ defmodule OEmbed do
   def for(url) when is_binary(url) do
     case Enum.find(get_providers(), fn(provider) -> provider.provides?(url) end) do
       nil ->
-        {:error, "oEmbed not found"}
+        {:error, "oEmbed not found", :embed_not_found}
       provider ->
         provider.get(url)
     end
