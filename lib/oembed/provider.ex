@@ -15,7 +15,7 @@ defmodule OEmbed.Provider do
       @behaviour OEmbed.Provider
 
       defp get_oembed(url) do
-         with {:ok, %HTTPoison.Response{body: body}} <- HTTPoison.get(url, [], [follow_redirect: true, ssl: [{:versions, [:'tlsv1.2']}]]),
+         with {:ok, %HTTPoison.Response{body: body, status_code: 200}} <- HTTPoison.get(url, [], [follow_redirect: true, ssl: [{:versions, [:'tlsv1.2']}]]),
          {:ok, struct} <- Poison.decode(body),
          resource <- get_resource(struct) do
            {:ok, resource}
