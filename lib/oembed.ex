@@ -33,6 +33,7 @@ defmodule OEmbed do
                    OEmbed.PinterestProvider,
                    OEmbed.URProvider,
                    OEmbed.VimeoProvider,
+                   OEmbed.YoutubeEmbedProvider,
                    OEmbed.DiscoverableProvider]
 
   @doc """
